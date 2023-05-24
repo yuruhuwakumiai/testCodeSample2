@@ -6,31 +6,27 @@
 //
 
 import XCTest
-@testable import TestCode2
+@testable import TestCode2 // アプリの名前に置き換えてください
 
-final class TestCode2Tests: XCTestCase {
+class MemoAppUITests: XCTestCase {
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        continueAfterFailure = false
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+    func testAddMemo() throws {
+        let app = XCUIApplication()
+        app.launch()
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
+        // 新しいメモを入力
+        let textField = app.textFields["新しいメモを追加"]
+        XCTAssertTrue(textField.exists)
+        textField.tap()
+        textField.typeText("テストメモ")
+        app.buttons["追加"].tap()
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+        // 追加されたメモが表示されていることを確認
+        let addedMemo = app.staticTexts["テストメモ"]
+        XCTAssertTrue(addedMemo.exists)
     }
-
 }
